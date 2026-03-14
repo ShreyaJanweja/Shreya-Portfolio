@@ -34,13 +34,7 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          {/* Logo */}
-          <motion.div 
-            className="text-2xl font-bold bg-gradient-to-r from-neon-purple to-neon-cyan bg-clip-text text-transparent neon-text cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-          >
-            Shreya
-          </motion.div>
+          {/* Clean no logo - space for floating effect */}
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-8">

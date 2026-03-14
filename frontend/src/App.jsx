@@ -2,6 +2,12 @@ import React from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
+import Skills from './components/Skills'
+import Experience from './components/Experience'
+import Projects from './components/Projects'
+import Hackathons from './components/Hackathons'
+import Contact from './components/Contact'
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -9,9 +15,12 @@ function App() {
       <Navbar />
       <Hero />
       <About />
-      <div style={{height: '100vh'}} className="flex items-center justify-center">
-        <h1 style={{fontSize: '4rem', fontWeight: 'bold'}}>All imports fixed! Portfolio renders.</h1>
-      </div>
+      <Skills />
+      <Experience />
+      <Projects />
+      <Hackathons />
+      <Contact />
+      <Footer />
     </div>
   )
 }
