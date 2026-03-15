@@ -1,7 +1,9 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useCallback, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 
 const About = () => {
+  const [glowPos, setGlowPos] = useState({ x: 0, y: 0 })
+  const sectionRef = useRef(null)
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
@@ -55,53 +57,16 @@ const About = () => {
               variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
               className="text-xl md:text-2xl leading-relaxed text-white/80 max-w-lg"
             >
-              Shreya is a{' '}
-              <span className="text-neon-purple font-semibold">Computer Science Engineering student</span>{' '}
-              at Chitkara University (2024–2028).
+              I'm Shreya, a Computer Science Engineering student at Chitkara University with a strong passion for technology and innovation. I enjoy building modern, responsive web applications and creating immersive digital experiences that blend design with functionality.
             </motion.p>
 
             <motion.p 
               variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
               className="text-lg text-white/70 max-w-lg"
             >
-              Passionate about crafting{' '}
-              <span className="text-neon-cyan font-semibold">modern web applications</span> and immersive user 
-              experiences. Experienced in full-stack development with a focus on{' '}
-              <span className="text-neon-blue font-semibold">React</span>,{' '}
-              <span className="text-neon-purple font-semibold">Node.js</span>, and cutting-edge technologies.
+              My interests lie in full-stack development, where I work with technologies like React, Node.js, and modern web frameworks to develop scalable and user-friendly applications. I'm constantly exploring new tools and ideas in the fields of web development, artificial intelligence, and interactive UI design to push the boundaries of what I can create.
             </motion.p>
 
-            {/* Stats */}
-            <motion.div 
-              variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8"
-            >
-              <div className="text-center p-6 glass rounded-2xl hover:bg-white/10 transition-all duration-300 group">
-                <motion.div 
-                  className="text-3xl font-black text-neon-purple mb-2"
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  2024
-                </motion.div>
-                <div className="text-sm text-white/60 uppercase tracking-wider">Started CSE</div>
-              </div>
-
-              <div className="text-center p-6 glass rounded-2xl hover:bg-white/10 transition-all duration-300">
-                <div className="text-3xl font-black text-neon-cyan mb-2">5+</div>
-                <div className="text-sm text-white/60 uppercase tracking-wider">Projects</div>
-              </div>
-
-              <div className="text-center p-6 glass rounded-2xl hover:bg-white/10 transition-all duration-300">
-                <div className="text-3xl font-black text-neon-blue mb-2">10+</div>
-                <div className="text-sm text-white/60 uppercase tracking-wider">Hackathons</div>
-              </div>
-
-              <div className="text-center p-6 glass rounded-2xl hover:bg-white/10 transition-all duration-300">
-                <div className="text-3xl font-black text-neon-purple mb-2">React</div>
-                <div className="text-sm text-white/60 uppercase tracking-wider">Expert</div>
-              </div>
-            </motion.div>
           </motion.div>
         </motion.div>
       </div>
@@ -118,4 +83,5 @@ const About = () => {
 }
 
 export default About
+
 

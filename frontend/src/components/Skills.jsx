@@ -3,128 +3,118 @@ import { motion, useInView } from 'framer-motion'
 
 const Skills = () => {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const isInView = useInView(ref, { once: true })
 
-  const skillsCategories = [
+  const categories = [
     {
-      category: 'Programming Languages',
+      title: 'PROGRAMMING LANGUAGES',
       skills: [
-        { name: 'Java', level: 90, color: 'from-orange-400 to-orange-500' },
-        { name: 'C++', level: 85, color: 'from-blue-500 to-blue-600' },
-        { name: 'Python', level: 88, color: 'from-yellow-400 to-yellow-500' },
-        { name: 'JavaScript', level: 95, color: 'from-yellow-400 to-amber-500' },
-        { name: 'TypeScript', level: 80, color: 'from-blue-500 to-indigo-500' },
-        { name: 'SQL', level: 82, color: 'from-gray-400 to-gray-500' },
+        { name: 'Java', level: 90 },
+        { name: 'C++', level: 85 },
+        { name: 'Python', level: 88 },
+        { name: 'JavaScript', level: 95 },
+        { name: 'TypeScript', level: 85 },
+        { name: 'SQL', level: 82 }
       ]
     },
     {
-      category: 'Frontend',
+      title: 'FRONTEND DEVELOPMENT', 
       skills: [
-        { name: 'React.js', level: 95, color: 'from-blue-400 to-blue-500' },
-        { name: 'HTML5', level: 95, color: 'from-orange-400 to-orange-500' },
-        { name: 'CSS3', level: 92, color: 'from-blue-400 to-cyan-400' },
-        { name: 'Tailwind CSS', level: 90, color: 'from-indigo-400 to-purple-400' },
-        { name: 'Bootstrap', level: 85, color: 'from-purple-500 to-pink-500' },
+        { name: 'React.js', level: 95 },
+        { name: 'HTML5', level: 95 },
+        { name: 'CSS3', level: 92 },
+        { name: 'Tailwind CSS', level: 90 },
+        { name: 'Bootstrap', level: 85 }
       ]
     },
     {
-      category: 'Backend & Tools',
+      title: 'BACKEND & API DEVELOPMENT',
       skills: [
-        { name: 'Node.js', level: 85, color: 'from-green-400 to-green-500' },
-        { name: 'Express.js', level: 82, color: 'from-gray-400 to-gray-500' },
-        { name: 'MongoDB', level: 78, color: 'from-green-600 to-emerald-600' },
-        { name: 'MySQL', level: 80, color: 'from-blue-500 to-blue-600' },
-        { name: 'Git & GitHub', level: 90, color: 'from-gray-600 to-gray-700' },
+        { name: 'Node.js', level: 85 },
+        { name: 'Express.js', level: 82 },
+        { name: 'REST APIs', level: 80 }
       ]
     },
     {
-      category: 'Core Concepts',
+      title: 'DATABASE',
       skills: [
-        { name: 'Data Structures', level: 92, color: 'from-purple-400 to-pink-400' },
-        { name: 'Algorithms', level: 90, color: 'from-indigo-400 to-purple-400' },
-        { name: 'OOP', level: 88, color: 'from-emerald-400 to-teal-400' },
-        { name: 'OS', level: 85, color: 'from-orange-400 to-red-400' },
-        { name: 'AI/ML', level: 75, color: 'from-pink-400 to-rose-400' },
+        { name: 'MongoDB', level: 80 },
+        { name: 'MySQL', level: 82 }
+      ]
+    },
+    {
+      title: 'DEVOPS & CLOUD',
+      skills: [
+        { name: 'Git', level: 90 },
+        { name: 'GitHub', level: 90 },
+        { name: 'Vercel', level: 85 }
+      ]
+    },
+    {
+      title: 'TOOLS & DESIGN',
+      skills: [
+        { name: 'VS Code', level: 95 },
+        { name: 'Figma', level: 80 },
+        { name: 'Canva', level: 85 }
       ]
     }
   ]
 
   return (
-    <section id="skills" className="section bg-dark-card/30 relative z-10">
+    <section id="skills" className="section py-32 bg-dark-card/10 relative z-10">
       <div className="container mx-auto">
         <motion.div 
-          ref={ref}
-          initial="hidden"
-          whileInView="visible"
+          className="text-center mb-24"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          variants={{
-            hidden: { opacity: 0, y: 75 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.8, staggerChildren: 0.15 } }
-          }}
-          className="text-center mb-20"
+          transition={{ duration: 0.8 }}
         >
-          <motion.h2 
-            variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-            className="text-5xl lg:text-6xl font-black bg-gradient-to-r from-neon-blue to-neon-cyan bg-clip-text text-transparent mb-6"
-          >
+          <h2 className="text-5xl lg:text-6xl font-black bg-gradient-to-r from-neon-purple to-neon-cyan bg-clip-text text-transparent mb-6">
             Skills & Expertise
-          </motion.h2>
-          <motion.div 
-            variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-            className="w-32 h-1 bg-gradient-to-r from-neon-blue to-neon-cyan rounded-full mx-auto"
-          />
+          </h2>
+          <div className="w-32 h-1 bg-gradient-to-r from-neon-purple to-neon-cyan rounded-full mx-auto" />
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-12 lg:gap-16">
-          {skillsCategories.map((category, index) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {categories.map((category, index) => (
             <motion.div 
-              key={category.category}
+              key={index}
+              ref={index === 0 ? ref : null}
+              className="glass p-8 rounded-3xl border border-white/10 backdrop-blur-xl hover:shadow-[0_0_50px_rgba(167,139,250,0.3)] transition-all duration-500 hover:-translate-y-2"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="glass p-8 lg:p-10 rounded-3xl hover:shadow-neon-glow transition-all duration-500 border border-white/10"
+              whileHover={{ scale: 1.02 }}
             >
-              <h3 className="text-2xl font-bold text-neon-purple mb-8 uppercase tracking-wide">
-                {category.category}
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-neon-purple to-neon-cyan bg-clip-text text-transparent uppercase tracking-wide mb-8">
+                {category.title}
               </h3>
               
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {category.skills.map((skill, skillIndex) => (
-                  <motion.div 
-                    key={skill.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: skillIndex * 0.1 }}
-                    className="space-y-3"
-                  >
+                  <div key={skillIndex} className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="font-semibold text-white text-lg">{skill.name}</span>
-                      <span className="text-neon-cyan font-mono text-sm">{skill.level}%</span>
+                      <span className="font-semibold text-white">{skill.name}</span>
+                      <span className="text-neon-cyan font-mono">{skill.level}%</span>
                     </div>
-                    <div className="w-full bg-dark-surface rounded-full h-3">
+                    <div className="w-full bg-dark-surface rounded-full h-3 overflow-hidden">
                       <motion.div 
-                        className={`h-3 rounded-full shadow-lg`}
+                        className="h-full bg-gradient-to-r from-neon-purple to-neon-cyan rounded-full shadow-lg"
                         initial={{ width: 0 }}
                         whileInView={{ width: `${skill.level}%` }}
+                        viewport={{ once: false }}
                         transition={{ duration: 1.5, ease: 'easeOut' }}
-                        style={{
-                          background: `linear-gradient(to right, var(--tw-gradient-${skill.color.replace('from-', '').replace(' to-', '')})`
-                        }}
                       />
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             </motion.div>
           ))}
         </div>
       </div>
-
-      {/* Decorative elements */}
-      <div className="absolute top-20 right-10 w-32 h-32 border-2 border-neon-purple/20 rounded-full blur-xl animate-pulse opacity-30 hidden lg:block" />
-      <div className="absolute bottom-20 left-20 w-24 h-24 border-2 border-neon-cyan/20 rounded-full blur-xl animate-pulse delay-1000 opacity-30 hidden xl:block" />
     </section>
   )
 }
