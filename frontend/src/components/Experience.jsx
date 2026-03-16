@@ -13,14 +13,14 @@ const Experience = () => {
       date: "October 2025 - Present",
       duration: "Full-time · India · On-site",
       description: "Developed and maintained websites for technical events, workshops, and community initiatives using modern web technologies. Collaborated with peers to organize hackathons, coding competitions, and technical sessions while actively supporting debugging, problem-solving, and fostering a strong coding culture within the community.",
-      technologies: ["React", "Node.js", "Express.js","MongoDB","Tailwind CSS", "Git", "Canva"],
+      technologies: ["React", "Node.js", "Express.js","MongoDB","Tailwind CSS", "Git","Github", "Canva"],
       offerLetter: "/assets/offerLetterCN.png"
     },
     {
       role: "Web Development Intern",
       company: "SkillCraft Technology",
       date: "September 1, 2025 - September 30, 2025",
-      duration: "Internship · India · Remote/On-site",
+      duration: "Internship · India · Remote",
       description: "Built and styled responsive web applications using modern frameworks and tools. Focused on creating user-friendly interfaces, implementing responsive design, and optimizing performance for better user experience.",
       technologies: ["React", "Tailwind CSS", "JavaScript", "HTML5", "CSS3"],
       offerLetter: "/assets/offerLetterSkillCraft.png"
@@ -31,7 +31,7 @@ const Experience = () => {
       date: "August 1, 2025 - August 15, 2025",
       duration: "Contributor · Remote",
       description: "Collaborated on open-source projects with a team of developers. Contributed code, fixed bugs, documented features, and participated in discussions to improve project quality and community engagement.",
-      technologies: ["Git", "GitHub", "JavaScript", "Python", "Markdown"],
+      technologies: ["Git", "GitHub", "JavaScript", "Python",],
       offerLetter: "/assets/Contributer.png"
     }
   ];
