@@ -65,8 +65,8 @@ const Hero = () => {
           </motion.a>
           
           <motion.a
-            href="/resume.pdf"
-            download
+            href="/assets/Shreya Resume - Final.pdf"
+            download="Shreya_Resume.pdf"
             className="px-10 py-4 glass text-xl font-bold border-2 border-[#06B6D4] text-[#06B6D4] hover:bg-[#06B6D4] hover:text-black rounded-full transition-all duration-300 shadow-2xl hover:shadow-[0_0_40px_rgba(6,182,212,0.6)] backdrop-blur-md"
             whileHover={{ scale: 1.05, y: -5 }}
             whileTap={{ scale: 0.95 }}
