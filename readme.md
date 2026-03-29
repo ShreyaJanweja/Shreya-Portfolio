@@ -1,6 +1,6 @@
-# Shreya's Futuristic Developer Portfolio 🚀
+# Shreya's Futuristic Developer Portfolio 
 
-## 🎨 Overview
+##  Overview
 Advanced full-stack portfolio for Shreya (CSE Student @ Chitkara University). Features:
 - Futuristic dark theme (neon purple/blue/cyan, glassmorphism)
 - 3D interactive hero (React Three Fiber)
@@ -12,12 +12,12 @@ Advanced full-stack portfolio for Shreya (CSE Student @ Chitkara University). Fe
 
 Live Demo: [TBD after deploy]
 
-## 🛠 Tech Stack
+##  Tech Stack
 **Frontend:** React (Vite), Tailwind CSS, Framer Motion, React Three Fiber (Three.js), GSAP, React Router  
 **Backend:** Node.js, Express, Nodemailer  
 **Deployment:** Vercel (frontend), Render/Railway (backend)
 
-## 📦 Quick Start
+##  Quick Start
 
 ### Prerequisites
 - Node.js 18+
@@ -50,7 +50,7 @@ npm run dev  # http://localhost:5173
 - Fill form → Backend sends email to OWNER_EMAIL
 - Check spam if needed
 
-## 🔧 Detailed Setup
+##  Detailed Setup
 
 ### Backend .env
 ```
@@ -71,7 +71,7 @@ PORT=3001
 | `npm start` (backend) | Production server |
 | `nodemon server.js` (backend) | Dev server (auto-reload) |
 
-## 🚀 Deployment
+##  Deployment
 
 ### Frontend (Vercel)
 1. `cd frontend`
@@ -89,7 +89,7 @@ PORT=3001
 
 **CORS:** Backend allows frontend origins in dev/prod.
 
-## 📱 Features
+##  Features
 - **3D Hero:** Interactive floating developer tools
 - **Animations:** Scroll reveals, hovers, typing effect
 - **AI Chatbot:** Ask about Shreya/projects/skills
@@ -97,12 +97,12 @@ PORT=3001
 - **Contact:** Real email via backend
 - **Resume:** Download PDF (assets/resume.pdf)
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 - Tailwind not working? Restart dev server
 - Email not sending? Check .env creds/spam
 - 3D not loading? Check Three.js deps
 
-## 📁 Structure
+##  Structure
 ```
 .
 ├── README.md
@@ -111,5 +111,4 @@ PORT=3001
 ├── backend/      # Express API
 └── assets/       # Shared (optional)
 ```
-
-Built with ❤️ by BLACKBOXAI
+ 
