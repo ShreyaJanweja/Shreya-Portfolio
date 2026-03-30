@@ -10,7 +10,7 @@ const Projects = () => {
       description: 'Women Safety Route Finder Web App. Helps women find safer routes using real-time data and safety scoring algorithms.',
       image: '/projects/suraksha-sathi.png',
       tech: ['React', 'Node.js', 'MongoDB', 'Google Maps API'],
-      github: '#',
+      github: 'https://github.com/Srishti2006-coder/Suraksha-sathi-react.git',
       live: 'https://suraksha-sathi.vercel.app',
       gradient: 'from-purple-500 to-pink-500'
     },
@@ -19,15 +19,15 @@ const Projects = () => {
       description: 'Intelligent trip planner web app for organizing travel destinations, budgets, and itineraries with AI recommendations.',
       image: '/projects/plan-go.png',
       tech: ['React', 'Tailwind', 'Firebase', 'OpenAI API'],
-      github: '#',
-      live: 'https://planandgo.vercel.app',
+      github: 'https://github.com/ShreyaJanweja/Plan-Go.git',
+      live: 'https://plan-go-gamma.vercel.app/',
       gradient: 'from-emerald-500 to-teal-500'
     },
     {
-      title: 'Personal Portfolio Website',
-      description: 'This very portfolio! Futuristic 3D React portfolio with full-stack contact form, AI chatbot, and immersive animations.',
-      image: '/projects/portfolio.png',
-      tech: ['React', 'Three.js', 'Framer Motion', 'GSAP', 'Express'],
+ title: 'Interactive Quiz Application',
+  description: 'A dynamic quiz application featuring multiple quiz types where users can test their knowledge, receive instant feedback, and view their final score. Built with a focus on interactive UI and smooth user experience.',
+  image: '/projects/quiz.png',
+  tech: ['HTML', 'CSS', 'JavaScript'],
       github: '#',
       live: '#',
       gradient: 'from-indigo-500 to-blue-500'
@@ -37,8 +37,8 @@ const Projects = () => {
       description: 'Official website for Sparkathon Hackathon. Features event registration, schedule, judging system, and live scoreboard.',
       image: '/projects/sparkathon.png',
       tech: ['Next.js', 'Tailwind', 'Supabase', 'Vercel'],
-      github: '#',
-      live: 'https://sparkathon.vercel.app',
+      github: 'https://github.com/ShreyaJanweja/S-Hackathon.git',
+      live: 'https://s-hackathon.vercel.app/',
       gradient: 'from-orange-500 to-red-500'
     }
   ]

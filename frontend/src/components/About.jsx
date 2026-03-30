@@ -49,18 +49,12 @@ const About = () => {
             variants={{ hidden: { opacity: 0, scale: 0.8 }, visible: { opacity: 1, scale: 1 } }}
             className="relative"
           >
-            <div className="w-80 h-80 lg:w-96 lg:h-96 mx-auto rounded-3xl glass p-1 shadow-2xl hover:shadow-neon-glow hover:shadow-purple-500/50 transition-all duration-500 group">
-              <div className="w-full h-full bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-cyan-900/20 rounded-2xl flex items-center justify-center backdrop-blur-xl">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-                  className="w-24 h-24 bg-gradient-to-r from-neon-purple to-neon-blue rounded-full flex items-center justify-center shadow-lg"
-                >
-                  <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </motion.div>
-              </div>
+            <div className="w-80 h-80 lg:w-96 lg:h-96 mx-auto rounded-3xl glass p-1 shadow-2xl hover:shadow-neon-glow hover:shadow-purple-500/50 transition-all duration-500 group overflow-hidden">
+              <img 
+                src="/assets/profilePic.png" 
+                alt="Shreya" 
+                className="w-full h-full object-cover rounded-3xl transition-transform duration-500 group-hover:scale-105"
+              />
             </div>
           </motion.div>
 

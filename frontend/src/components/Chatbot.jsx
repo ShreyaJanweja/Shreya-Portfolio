@@ -6,7 +6,9 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
   const messagesEndRef = useRef(null)
+  const chatContainerRef = useRef(null)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -16,63 +18,134 @@ const Chatbot = () => {
     scrollToBottom()
   }, [messages])
 
-  // Portfolio knowledge base
-  const knowledgeBase = {
-    'shreya': 'I am Shreya, a Computer Science Engineering student at Chitkara University (2024-2028). Passionate about frontend development, open source, and AI.',
-    'skills': "I know Java, C++, Python, JavaScript/TypeScript, React, Node.js, Tailwind, MongoDB/MySQL, DSA, OOP, OS, Networks, AI. Check the Skills section!",
-    'projects': "Featured projects: Suraksha Sathi (women safety app), Plan & Go (trip planner), this portfolio, Sparkathon website. See Projects section for details.",
-    'experience': "Technical Team Executive at Coding Ninjas CUIET, Open Source Contributor, Web Dev Intern at SkillCraft. Timeline in Experience section.",
-    'hackathons': "Participated in Build with India, Smart India Hackathon, SAP Hackfest, VaultHeist, SwiftUI Challenge. Check Hackathons!",
-    'contact': "Use the contact form or email shreya@example.com. I'll respond within 24 hours!",
-    'resume': "Download my resume from the button in navbar or contact section.",
-    'github': "Find my code at github.com/shreya",
-    'linkedin': "Connect on linkedin.com/in/shreya"
+  // Get the API URL from environment variables
+  const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'
+
+  const suggestedQuestions = [
+    "About Me",
+    "My Projects",
+    "Tech Skills",
+    "Contact Me"
+  ]
+
+  const suggestedQuestionsMap = {
+    'About Me': 'Tell me about Shreya',
+    'My Projects': 'What projects have you built',
+    'Tech Skills': 'What technologies do you know',
+    'Contact Me': 'How can i contact you'
   }
 
-  const keywords = {
-    shreya: ['shreya', 'who are you', 'about', 'name'],
-    skills: ['skills', 'technologies', 'tech stack', 'languages'],
-    projects: ['projects', 'work', 'what have you built'],
-    experience: ['experience', 'work experience', 'jobs'],
-    hackathons: ['hackathon', 'hackathons', 'competitions'],
-    contact: ['contact', 'email', 'reach', 'message'],
-    resume: ['resume', 'cv', 'download resume'],
-    github: ['github', 'code', 'repo'],
-    linkedin: ['linkedin', 'connect', 'network']
-  }
+  // Send message to AI backend
+  const sendMessageToAI = async (userMessage) => {
+    try {
+      setError(null)
+      
+      // Prepare conversation history (without the current user message)
+      const conversationHistory = messages.map(msg => ({
+        role: msg.role === 'user' ? 'user' : 'assistant',
+        content: msg.content,
+      }))
 
-  const getResponse = (message) => {
-    const lowerMsg = message.toLowerCase()
-    
-    for (const [topic, kws] of Object.entries(keywords)) {
-      if (kws.some(kw => lowerMsg.includes(kw))) {
-        return knowledgeBase[topic]
+      console.log('Sending to:', `${API_URL}/api/chat`)
+      
+      const response = await fetch(`${API_URL}/api/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: userMessage,
+          conversationHistory: conversationHistory,
+        }),
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || `HTTP Error: ${response.status}`)
       }
-    }
 
-    // Default responses
-    const defaults = [
-      "That's cool! Check my projects section for more.",
-      "Tell me more about what you're building!",
-      "I'm passionate about React and AI. What about you?",
-      "Thanks for asking! See my skills for tech stack."
-    ]
-    return defaults[Math.floor(Math.random() * defaults.length)]
+      const data = await response.json()
+      return data.response
+    } catch (err) {
+      console.error('AI Chat Error:', err)
+      const errorMessage = err.message === 'Failed to fetch' 
+        ? 'Cannot connect to backend. Make sure it\'s running on http://localhost:3001'
+        : err.message
+      setError(errorMessage)
+      throw err
+    }
   }
 
-  const handleSend = () => {
-    if (!input.trim()) return
+  const handleSend = async () => {
+    if (!input.trim() || loading) return
 
-    const userMsg = { role: 'user', content: input }
+    const userMessage = input.trim()
+    const userMsg = { role: 'user', content: userMessage }
     setMessages(prev => [...prev, userMsg])
     setInput('')
     setLoading(true)
+    setError(null)
 
-    setTimeout(() => {
-      const botMsg = { role: 'bot', content: getResponse(input) }
+    try {
+      const aiResponse = await sendMessageToAI(userMessage)
+      const botMsg = { role: 'bot', content: aiResponse }
+      setMessages(prev => [...prev, botMsg])
+    } catch (err) {
+      // Show error message
+      const errorMsg = { role: 'bot', content: `Sorry, I encountered an error: ${err.message}. Please try again.` }
+      setMessages(prev => [...prev, errorMsg])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleSuggestedQuestion = (question) => {
+    const questionText = suggestedQuestionsMap[question]
+    setInput(questionText)
+    
+    const userMsg = { role: 'user', content: questionText }
+    setMessages(prev => [...prev, userMsg])
+    setLoading(true)
+    setError(null)
+
+    sendMessageToAI(questionText).then(aiResponse => {
+      const botMsg = { role: 'bot', content: aiResponse }
       setMessages(prev => [...prev, botMsg])
       setLoading(false)
-    }, 800 + Math.random() * 1200)
+    }).catch(err => {
+      const errorMsg = { role: 'bot', content: `Sorry, I encountered an error: ${err.message}. Please try again.` }
+      setMessages(prev => [...prev, errorMsg])
+      setLoading(false)
+    })
+  }
+
+  const handleLinkClick = (url) => {
+    window.open(url, '_blank')
+  }
+
+  const renderMessageContent = (content) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g
+    const parts = content.split(urlRegex)
+
+    return parts.map((part, index) => {
+      if (part.match(urlRegex)) {
+        return (
+          <motion.a
+            key={index}
+            onClick={() => handleLinkClick(part)}
+            className="text-neon-cyan hover:text-neon-blue underline cursor-pointer transition-colors"
+            whileHover={{ scale: 1.02 }}
+          >
+            {part}
+          </motion.a>
+        )
+      }
+      return (
+        <span key={index} className="whitespace-pre-wrap break-words">
+          {part}
+        </span>
+      )
+    })
   }
 
   const closeChat = () => setIsOpen(false)
@@ -103,10 +176,10 @@ const Chatbot = () => {
             initial={{ opacity: 0, scale: 0.8, x: 300 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             exit={{ opacity: 0, scale: 0.8, x: 300 }}
-            className="fixed bottom-24 right-8 w-80 lg:w-96 h-96 glass rounded-3xl border border-white/20 shadow-2xl z-50 backdrop-blur-xl overflow-hidden"
+            className="fixed bottom-24 right-8 w-80 lg:w-96 h-[500px] glass rounded-3xl border border-white/20 shadow-2xl z-50 backdrop-blur-xl overflow-hidden flex flex-col"
           >
             {/* Header */}
-            <div className="p-6 border-b border-white/10 bg-gradient-to-r from-neon-purple/20 to-neon-blue/20">
+            <div className="p-6 border-b border-white/10 bg-gradient-to-r from-neon-purple/20 to-neon-blue/20 flex-shrink-0">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-gradient-to-r from-neon-purple to-neon-blue rounded-2xl flex items-center justify-center shadow-lg">
@@ -115,8 +188,8 @@ const Chatbot = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-bold text-white text-lg">Portfolio Assistant</h3>
-                    <p className="text-neon-purple/80 text-sm">Ask me about Shreya!</p>
+                    <h3 className="font-bold text-white text-lg">Shreya's AI Assistant</h3>
+                    <p className="text-neon-purple/80 text-sm">Ask me anything! 🤖</p>
                   </div>
                 </div>
                 <motion.button
@@ -133,15 +206,50 @@ const Chatbot = () => {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 p-6 overflow-y-auto space-y-4">
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <div className="bot text-neon-cyan/90 text-sm">
-                  Hi! I'm Shreya's portfolio assistant 🤖 Ask me about her skills, projects, experience, or anything else!
-                </div>
-              </motion.div>
+            <div 
+              ref={chatContainerRef}
+              className="flex-1 p-6 overflow-y-auto space-y-4 scroll-smooth"
+              style={{ overflowY: 'auto', scrollBehavior: 'smooth' }}
+            >
+              {messages.length === 0 && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="space-y-4"
+                >
+                  <div className="glass p-4 rounded-2xl border border-white/20">
+                    <p className="text-neon-cyan/90 text-sm mb-4">
+                      Hi! 👋 I'm Shreya's AI Assistant powered by advanced AI. Ask me anything about her skills, projects, experience, or how to reach out. I'll give you personalized responses! 🤖
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {suggestedQuestions.map((q, idx) => (
+                        <motion.button
+                          key={idx}
+                          onClick={() => handleSuggestedQuestion(q)}
+                          disabled={loading}
+                          className="px-3 py-2 bg-neon-purple/20 border border-neon-purple/50 rounded-full text-xs text-neon-purple hover:bg-neon-purple/40 transition-all disabled:opacity-50"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          {q}
+                        </motion.button>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+              
+              {error && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="glass p-3 rounded-2xl border border-red-500/50 bg-red-500/10"
+                >
+                  <p className="text-red-400/90 text-sm">
+                    ⚠️ {error}
+                  </p>
+                </motion.div>
+              )}
               
               {messages.map((message, index) => (
                 <motion.div
@@ -151,8 +259,8 @@ const Chatbot = () => {
                   transition={{ delay: index * 0.1 }}
                   className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <div className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${message.role === 'user' ? 'bg-gradient-to-r from-neon-purple to-neon-blue text-dark-bg shadow-lg' : 'glass text-white shadow-lg border border-white/20 backdrop-blur-md'}`}>
-                    {message.content}
+                  <div className={`max-w-xs lg:max-w-md px-4 py-3 rounded-2xl ${message.role === 'user' ? 'bg-gradient-to-r from-neon-purple to-neon-blue text-dark-bg shadow-lg font-medium' : 'glass text-white shadow-lg border border-white/20 backdrop-blur-md'}`}>
+                    {message.role === 'bot' ? renderMessageContent(message.content) : message.content}
                   </div>
                 </motion.div>
               ))}
@@ -176,7 +284,7 @@ const Chatbot = () => {
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-white/10 bg-dark-card/50">
+            <div className="p-4 border-t border-white/10 bg-dark-card/50 flex-shrink-0">
               <div className="flex gap-3">
                 <input
                   type="text"
