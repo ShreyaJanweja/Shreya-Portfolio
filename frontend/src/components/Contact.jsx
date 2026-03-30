@@ -71,11 +71,11 @@ const Contact = () => {
             <motion.div 
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="glass p-8 rounded-3xl mb-8 text-center border-2 border-emerald-400/50 bg-emerald-500/10 backdrop-blur-md"
+              className="glass p-8 rounded-3xl mb-8 text-center border-2 border-neon-blue/50 bg-blue-500/10 backdrop-blur-md"
             >
               <div className="text-4xl mb-4">✅</div>
-              <h3 className="text-2xl font-bold text-emerald-400 mb-2">Message Sent!</h3>
-              <p className="text-emerald-200">Thank you! I'll get back to you soon.</p>
+              <h3 className="text-2xl font-bold text-blue-400 mb-2">Message Sent!</h3>
+              <p className="text-blue-200">Thank you! I'll get back to you soon.</p>
             </motion.div>
           )}
 
