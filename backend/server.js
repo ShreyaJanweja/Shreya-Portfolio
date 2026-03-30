@@ -70,7 +70,6 @@ app.listen(PORT, () => {
   // Initialize transporter on startup
   initializeTransporter()
 })
-})
 
 module.exports = app
 
