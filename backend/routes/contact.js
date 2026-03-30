@@ -1,30 +1,29 @@
 const express = require('express')
-const nodemailer = require('nodemailer')
 const router = express.Router()
-
-// Nodemailer transporter
-let transporter
-
-const initTransporter = () => {
-  transporter = nodemailer.createTransporter({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  })
-}
 
 // Send contact email
 router.post('/', async (req, res) => {
   try {
-    if (!transporter) initTransporter()
+    const transporter = req.transporter
+    
+    if (!transporter) {
+      console.error('❌ Email transporter not initialized')
+      return res.status(500).json({ error: 'Email service not available. Please try again later.' })
+    }
     
     const { name, email, message } = req.body
 
     // Validate input
     if (!name || !email || !message) {
-      return res.status(400).json({ error: 'Missing required fields' })
+      console.warn('⚠️  Missing required fields:', { name: !!name, email: !!email, message: !!message })
+      return res.status(400).json({ error: 'Missing required fields: name, email, message' })
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      console.warn('⚠️  Invalid email format:', email)
+      return res.status(400).json({ error: 'Invalid email format' })
     }
 
     // Email content
@@ -49,16 +48,25 @@ router.post('/', async (req, res) => {
       `,
     }
 
+    console.log('📨 Sending email to:', process.env.OWNER_EMAIL, 'from:', email)
+    
     await transporter.sendMail(mailOptions)
 
+    console.log('✅ Email sent successfully from:', email)
     res.json({ 
       success: true, 
       message: 'Message sent successfully! I\'ll reply soon.' 
     })
 
   } catch (error) {
-    console.error('Email error:', error)
-    res.status(500).json({ error: 'Failed to send email. Please try again.' })
+    console.error('❌ Email sending error:', {
+      message: error.message,
+      code: error.code,
+      command: error.command
+    })
+    res.status(500).json({ 
+      error: 'Failed to send email. Please check backend logs or try again later.' 
+    })
   }
 })
 

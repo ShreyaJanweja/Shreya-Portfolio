@@ -28,7 +28,7 @@ const Projects = () => {
       description: 'A dynamic quiz application featuring multiple quiz types where users can test their knowledge, receive instant feedback, and view their final score.',
       image: '/assets/Quiz.png',
       tech: ['HTML', 'CSS', 'JavaScript'],
-      github: '#',
+      github: 'https://github.com/ShreyaJanweja/QuizQuest---Quiz-Application.git',
       live: '#',
       gradient: 'from-indigo-500 to-blue-500'
     },

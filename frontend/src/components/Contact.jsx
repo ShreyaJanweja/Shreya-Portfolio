@@ -24,11 +24,19 @@ const Contact = () => {
     setStatus(null)
 
     try {
+      console.log('🔄 Submitting contact form...')
       await sendContact(formData)
+      console.log('✅ Contact form submitted successfully')
       setStatus('success')
       setFormData({ name: '', email: '', message: '' })
+      
+      // Auto-clear success message after 5 seconds
+      setTimeout(() => setStatus(null), 5000)
     } catch (error) {
+      console.error('❌ Contact form error:', error)
       setStatus('error')
+      
+      // Keep error message visible until user clicks send again
     } finally {
       setLoading(false)
     }
@@ -160,15 +168,15 @@ const Contact = () => {
           <p className="text-white/60 text-lg mb-6">Or reach me directly:</p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center text-xl">
             <a href="mailto:shreyajanweja26@gmail.com" className="group flex items-center gap-3 hover:text-neon-cyan transition-colors">
-              <span>✉️ shreyajanweja26@gmail.com</span>
+              <span>Email</span>
               <motion.div className="w-0 h-0.5 bg-gradient-to-r from-transparent to-neon-cyan group-hover:w-24 transition-all duration-300" />
             </a>
             <a href="https://www.linkedin.com/in/shreya-janweja-772a00347/" target="_blank" className="group flex items-center gap-3 hover:text-blue-400 transition-colors">
-              <span>💼 LinkedIn</span>
+              <span>LinkedIn</span>
               <motion.div className="w-0 h-0.5 bg-gradient-to-r from-transparent to-blue-400 group-hover:w-16 transition-all duration-300" />
             </a>
             <a href="https://github.com/ShreyaJanweja" target="_blank" className="group flex items-center gap-3 hover:text-gray-300 transition-colors">
-              <span>🐱 GitHub</span>
+              <span>GitHub</span>
               <motion.div className="w-0 h-0.5 bg-gradient-to-r from-transparent to-gray-300 group-hover:w-16 transition-all duration-300" />
             </a>
           </div>

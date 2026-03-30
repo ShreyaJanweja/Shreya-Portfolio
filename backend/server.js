@@ -8,13 +8,40 @@ const chatRoutes = require('./routes/chat')
 const app = express()
 const PORT = process.env.PORT || 3001
 
+// Initialize Nodemailer Transporter on startup
+let transporter = null
+
+const initializeTransporter = () => {
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.warn('⚠️  Email credentials not found in .env')
+    return null
+  }
+  
+  transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  })
+  
+  console.log('✅ Email transporter initialized')
+  return transporter
+}
+
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
     ? ['https://shreya-portfolio.vercel.app'] 
-    : ['http://localhost:5173']
+    : ['http://localhost:5173', 'http://localhost:3000']
 }))
 app.use(express.json())
+
+// Pass transporter to contact routes
+app.use((req, res, next) => {
+  req.transporter = transporter
+  next()
+})
 
 // Routes
 app.use('/api/contact', contactRoutes)
@@ -39,6 +66,10 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`)
   console.log(`📧 Email configured: ${process.env.EMAIL_USER ? 'YES' : 'NO - Check .env'}`)
+  
+  // Initialize transporter on startup
+  initializeTransporter()
+})
 })
 
 module.exports = app
