@@ -3,6 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const nodemailer = require('nodemailer')
 const contactRoutes = require('./routes/contact')
+const chatRoutes = require('./routes/chat')
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -17,6 +18,7 @@ app.use(express.json())
 
 // Routes
 app.use('/api/contact', contactRoutes)
+app.use('/api/chat', chatRoutes)
 
 // Health check
 app.get('/', (req, res) => {

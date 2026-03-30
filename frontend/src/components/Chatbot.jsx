@@ -35,6 +35,87 @@ const Chatbot = () => {
     'Contact Me': 'How can i contact you'
   }
 
+  // Predefined responses for when API is not available
+  const predefinedResponses = {
+    'about': `Hi! 👋 I'm Shreya Janweja, a second-year Computer Science Engineering student at Chitkara University (2024-2028).
+
+I'm passionate about web development, AI, and building modern user interfaces. I love creating innovative solutions that solve real-world problems!
+
+My Background:
+🎓 **Education:** CSE at Chitkara University
+💼 **Experience:** Web Development Intern at SkillCraft Technology, Technical Team Executive at Coding Ninjas CUIET
+🌐 **Interests:** React, Node.js, AI/ML, and open-source contributions
+
+Feel free to ask me about my projects, skills, or how to contact me! 😊`,
+
+    'projects': `🚀 Here are some of my projects:
+
+1. **Suraksha Sathi** - Women safety web application with emergency alerts and route optimization
+2. **Plan & Go** - Trip planner application for organizing travel plans and budgeting
+3. **Personal Portfolio Website** - This portfolio you're viewing right now!
+4. **Hackathon Website** - Event management platform for Sparkathon
+
+All my projects showcase my skills in React, Node.js, responsive design, and modern web development practices!
+
+Want to know more about any specific project? 🤔`,
+
+    'skills': `💻 Here are my technical skills:
+
+**Frontend:**
+- React, JavaScript, TypeScript
+- HTML, CSS, Tailwind CSS
+- Responsive Design, UI/UX
+
+**Backend:**
+- Node.js, Express.js
+- RESTful APIs
+
+**Databases:**
+- MongoDB, MySQL
+
+**Tools & Platforms:**
+- Git, GitHub, Vercel, Canva
+
+**Currently Learning:**
+- Artificial Intelligence
+- Machine Learning
+
+I'm always eager to learn new technologies and grow my skillset! 🚀`,
+
+    'contact': `📞 Here's how you can reach me:
+
+📧 **Email:** shreyajanweja26@gmail.com
+🔗 **GitHub:** https://github.com/ShreyaJanweja
+💼 **LinkedIn:** https://www.linkedin.com/in/shreya-janweja-772a00347/
+🧮 **LeetCode:** https://leetcode.com/u/ShreyaJanweja/
+
+Feel free to reach out! I'm always open to opportunities, collaborations, and interesting conversations. Let's connect! 😊`
+  }
+
+  // Function to find matching predefined response
+  const getPredefinedResponse = (userMessage) => {
+    const message = userMessage.toLowerCase()
+    
+    if (message.includes('about') || message.includes('who are you') || message.includes('yourself')) {
+      return predefinedResponses['about']
+    } else if (message.includes('project') || message.includes('built') || message.includes('work')) {
+      return predefinedResponses['projects']
+    } else if (message.includes('skill') || message.includes('technology') || message.includes('know')) {
+      return predefinedResponses['skills']
+    } else if (message.includes('contact') || message.includes('reach') || message.includes('email') || message.includes('linkedin')) {
+      return predefinedResponses['contact']
+    }
+    
+    // Default response if no match
+    return `Thanks for your interest! 😊 I can answer questions about:
+• About Me
+• My Projects
+• My Tech Skills
+• How to Contact Me
+
+Feel free to ask any of these! Or you can contact me directly at shreyajanweja26@gmail.com`
+  }
+
   // Send message to AI backend
   const sendMessageToAI = async (userMessage) => {
     try {
@@ -91,9 +172,10 @@ const Chatbot = () => {
       const botMsg = { role: 'bot', content: aiResponse }
       setMessages(prev => [...prev, botMsg])
     } catch (err) {
-      // Show error message
-      const errorMsg = { role: 'bot', content: `Sorry, I encountered an error: ${err.message}. Please try again.` }
-      setMessages(prev => [...prev, errorMsg])
+      // Fallback to predefined response when API fails
+      const fallbackResponse = getPredefinedResponse(userMessage)
+      const botMsg = { role: 'bot', content: fallbackResponse }
+      setMessages(prev => [...prev, botMsg])
     } finally {
       setLoading(false)
     }
@@ -113,8 +195,10 @@ const Chatbot = () => {
       setMessages(prev => [...prev, botMsg])
       setLoading(false)
     }).catch(err => {
-      const errorMsg = { role: 'bot', content: `Sorry, I encountered an error: ${err.message}. Please try again.` }
-      setMessages(prev => [...prev, errorMsg])
+      // Fallback to predefined response when API fails
+      const fallbackResponse = getPredefinedResponse(questionText)
+      const botMsg = { role: 'bot', content: fallbackResponse }
+      setMessages(prev => [...prev, botMsg])
       setLoading(false)
     })
   }
