@@ -1,119 +1,156 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { motion } from 'framer-motion'
+import gsap from 'gsap'
 
-const Hackathons = () => {
-  const hackathons = [
-    {
-      name: 'Build with India Hackathon',
-      description: 'Participant - Innovative solution for developer productivity.',
-      level: 'National',
-      date: '2024',
-      image: '/hackathons/build-with-india.png',
-      badge: '🏆 Participant'
-    },
-    {
-      name: 'Smart India Hackathon',
-      description: 'National Level Participant - Developed real-time data dashboard.',
-      level: 'National',
-      date: '2024',
-      image: '/hackathons/sih.png',
-      badge: '🏆 Finalist'
-    },
-    {
-      name: 'SAP Hackfest 25',
-      description: 'Chitkara University - Enterprise solution hackathon.',
-      level: 'University',
-      date: '2025',
-      image: '/hackathons/sap-hackfest.png',
-      badge: '🏆 Team Lead'
-    },
-    {
-      name: 'VaultHeist',
-      description: 'National Level Cyber Security Challenge.',
-      level: 'National',
-      date: '2024',
-      image: '/hackathons/vaultheist.png',
-      badge: '🏆 Top 10'
-    },
-    {
-      name: 'SwiftUI Challenge 26',
-      description: 'iOS Development Challenge.',
-      level: 'National',
-      date: '2026',
-      image: '/hackathons/swiftui.png',
-      badge: '🏆 Participant'
-    }
-  ]
+const hackathons = [
+  {
+    name: 'Build with India Hackathon',
+    description: 'Worked on an innovative solution focused on improving developer productivity using modern web technologies and scalable architecture.',
+    level: 'National',
+    date: '2024'
+  },
+  {
+    name: 'Smart India Hackathon',
+    description: 'Participated at national level and contributed to building a real-time data dashboard with efficient data visualization and backend integration.',
+    level: 'National',
+    date: '2024'
+  },
+  {
+    name: 'SAP Hackfest 25',
+    description: 'Led a team to develop an enterprise-level solution during this university-level hackathon, focusing on real-world problem solving and system design.',
+    level: 'University',
+    date: '2025'
+  },
+  {
+    name: 'VaultHeist Cyber Challenge',
+    description: 'Competed in a national-level cybersecurity competition and secured a position among the top 10 teams through strong analytical and problem-solving skills.',
+    level: 'National',
+    date: '2024'
+  },
+  {
+    name: 'SwiftUI Workshop',
+    description: 'Participated in an iOS development workshop focused on building modern mobile interfaces using SwiftUI and understanding Apple’s UI design principles.',
+    level: 'Workshop',
+    date: '2026'
+  },
+  {
+  name: 'Adobe XD UI/UX Design Workshop',
+  description: 'Participated in a certified workshop organized by Chitkara University, where I explored Adobe XD to design interactive UI/UX prototypes and create meaningful digital experiences.',
+  level: 'Workshop',
+  date: 'March 2025'
+}
+]
+
+// 🔥 ADVANCED CARD
+const HackathonCard = ({ hackathon, index }) => {
+  const cardRef = useRef()
+
+  const handleMove = (e) => {
+    const rect = cardRef.current.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+
+    const rotateX = -(y - rect.height / 2) / 12
+    const rotateY = (x - rect.width / 2) / 12
+
+    gsap.to(cardRef.current, {
+      rotationX: rotateX,
+      rotationY: rotateY,
+      scale: 1.05,
+      duration: 0.3,
+      ease: 'power2.out'
+    })
+  }
+
+  const handleLeave = () => {
+    gsap.to(cardRef.current, {
+      rotationX: 0,
+      rotationY: 0,
+      scale: 1,
+      duration: 0.6,
+      ease: 'elastic.out(1, 0.5)'
+    })
+  }
 
   return (
-    <section id="hackathons" className="section bg-gradient-to-b from-dark-bg via-dark-card/30 to-dark-bg relative z-10">
-      <div className="container mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
-        >
-          <h2 className="text-5xl lg:text-6xl font-black bg-gradient-to-r from-neon-purple to-orange-500 bg-clip-text text-transparent mb-6">
-            Hackathons & Competitions
-          </h2>
-          <div className="w-32 h-1 bg-gradient-to-r from-neon-purple to-orange-500 rounded-full mx-auto" />
-        </motion.div>
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 80 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1 }}
+      viewport={{ once: true }}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      className="relative group h-[320px] rounded-3xl overflow-hidden cursor-pointer"
+      style={{ transformStyle: 'preserve-3d' }}
+    >
+      {/* Glow Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-blue-500/10 to-cyan-500/20 opacity-40 group-hover:opacity-70 blur-2xl transition duration-500" />
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {hackathons.map((hackathon, index) => (
-            <motion.div
-              key={hackathon.name}
-              initial={{ opacity: 0, scale: 0.9, y: 50 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="glass p-8 rounded-3xl hover:shadow-neon-glow hover:shadow-purple-500/40 hover:-translate-y-4 transition-all duration-500 border border-white/10 group hover:border-neon-purple/50"
-              whileHover={{ rotateX: 5, rotateY: 5 }}
-            >
-              {/* Badge */}
-              <motion.div 
-                className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-6 py-2 glass text-xs font-bold uppercase tracking-wider text-neon-purple border border-neon-purple rounded-full backdrop-blur-md"
-                whileHover={{ scale: 1.1 }}
-              >
-                {hackathon.badge}
-              </motion.div>
+      {/* Glass Card */}
+      <div className="relative h-full w-full backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-6 flex flex-col justify-between transition-all duration-500 group-hover:border-neon-purple/50 group-hover:shadow-[0_0_40px_rgba(168,85,247,0.4)]">
 
-              {/* Image */}
-              <div className="w-full h-40 rounded-2xl overflow-hidden mb-6 bg-dark-surface group-hover:bg-gradient-to-br group-hover:from-purple-500/10 group-hover:to-orange-500/10 transition-all duration-500">
-                <div 
-                  className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                  style={{ backgroundImage: `url(${hackathon.image})` }}
-                />
-              </div>
+        {/* Title */}
+        <h3 className="text-xl font-bold text-white group-hover:text-neon-cyan transition">
+          {hackathon.name}
+        </h3>
 
-              {/* Content */}
-              <h3 className="text-xl font-bold text-white mb-3 leading-tight group-hover:text-neon-purple transition-colors">
-                {hackathon.name}
-              </h3>
-              
-              <p className="text-white/70 mb-4 text-sm leading-relaxed">
-                {hackathon.description}
-              </p>
+        {/* Description */}
+        <p className="text-white/60 text-sm leading-relaxed mt-2">
+          {hackathon.description}
+        </p>
 
-              <div className="flex items-center gap-4 text-xs text-white/60 uppercase tracking-wider font-mono">
-                <span className={`px-3 py-1 rounded-full bg-gradient-to-r ${hackathon.level === 'National' ? 'from-orange-400/20 to-red-400/20 text-orange-300 border-orange-400/50' : 'from-emerald-400/20 to-teal-400/20 text-emerald-300 border-emerald-400/50'} border backdrop-blur-sm`}>
-                  {hackathon.level}
-                </span>
-                <span>{hackathon.date}</span>
-              </div>
-            </motion.div>
-          ))}
+        {/* Bottom */}
+        <div className="flex justify-between items-center text-xs text-white/50 mt-4">
+          <span className="px-3 py-1 border border-white/20 rounded-full backdrop-blur-sm">
+            {hackathon.level}
+          </span>
+          <span>{hackathon.date}</span>
         </div>
       </div>
 
-      {/* Geometric decoration */}
-      <div className="absolute top-1/4 left-10 w-32 h-32 rotate-12 bg-neon-purple/10 rounded-2xl blur-xl opacity-50 hidden lg:block animate-pulse" />
-      <div className="absolute bottom-1/4 right-10 w-24 h-24 rotate-[-15deg] bg-neon-orange/10 rounded-xl blur-xl opacity-40 hidden xl:block animate-pulse delay-1000" />
+      {/* Floating Glow Orb */}
+      <div className="absolute -top-10 -right-10 w-32 h-32 bg-purple-500/30 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition duration-500" />
+    </motion.div>
+  )
+}
+
+// 🚀 MAIN SECTION
+const Hackathons = () => {
+  return (
+    <section id="hackathons" className="section relative py-24">
+
+      {/* Background Glow */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500/20 blur-3xl rounded-full animate-pulse" />
+        <div className="absolute bottom-20 right-20 w-72 h-72 bg-blue-500/20 blur-3xl rounded-full animate-pulse" />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+
+        {/* Heading */}
+        <div className="text-center mb-20">
+          <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent mb-6">
+            Hackathons & Competitions
+          </h2>
+
+          <div className="w-32 h-1 bg-gradient-to-r from-neon-cyan to-neon-purple mx-auto rounded-full" />
+
+          <p className="text-white/60 mt-6">
+            Building • Competing • Innovating 🚀
+          </p>
+        </div>
+
+        {/* Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {hackathons.map((hackathon, index) => (
+            <HackathonCard key={index} hackathon={hackathon} index={index} />
+          ))}
+        </div>
+
+      </div>
     </section>
   )
 }
 
 export default Hackathons
-
