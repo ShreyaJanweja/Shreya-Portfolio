@@ -7,6 +7,7 @@ import Experience from './components/Experience'
 import Projects from './components/Projects'
 import Hackathons from './components/Hackathons'
 import Contact from './components/Contact'
+import DigitalPresence from './components/DigitalPresence'
 import Footer from './components/Footer'
 import Chatbot from './components/Chatbot'
 
@@ -21,6 +22,7 @@ function App() {
       <Projects />
       <Hackathons />
       <Contact />
+      <DigitalPresence />
       <Footer />
       <Chatbot />
     </div>

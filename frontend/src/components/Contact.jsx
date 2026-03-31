@@ -158,29 +158,7 @@ const Contact = () => {
           </motion.form>
         </motion.div>
 
-        {/* Direct contact info */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mt-24"
-        >
-          <p className="text-white/60 text-lg mb-6">Or reach me directly:</p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center text-xl">
-            <a href="mailto:shreyajanweja26@gmail.com" className="group flex items-center gap-3 hover:text-neon-cyan transition-colors">
-              <span>Email</span>
-              <motion.div className="w-0 h-0.5 bg-gradient-to-r from-transparent to-neon-cyan group-hover:w-24 transition-all duration-300" />
-            </a>
-            <a href="https://www.linkedin.com/in/shreya-janweja-772a00347/" target="_blank" className="group flex items-center gap-3 hover:text-blue-400 transition-colors">
-              <span>LinkedIn</span>
-              <motion.div className="w-0 h-0.5 bg-gradient-to-r from-transparent to-blue-400 group-hover:w-16 transition-all duration-300" />
-            </a>
-            <a href="https://github.com/ShreyaJanweja" target="_blank" className="group flex items-center gap-3 hover:text-gray-300 transition-colors">
-              <span>GitHub</span>
-              <motion.div className="w-0 h-0.5 bg-gradient-to-r from-transparent to-gray-300 group-hover:w-16 transition-all duration-300" />
-            </a>
-          </div>
-        </motion.div>
+ 
       </div>
     </section>
   )
