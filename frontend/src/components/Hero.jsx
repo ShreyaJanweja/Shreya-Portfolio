@@ -411,11 +411,8 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.1, duration: 0.8 }}
         >
-          Computer Science Engineering student crafting futuristic web experiences
-          with{' '}
-          <span className="text-[#a78bfa]">React</span>,{' '}
-          <span className="text-[#818cf8]">Three.js</span>, and{' '}
-          <span className="text-[#06b6d4]">AI</span>.
+          Computer Science Engineering student crafting futuristic web experiences{' '}
+ 
         </motion.p>
 
         {/* Buttons */}
