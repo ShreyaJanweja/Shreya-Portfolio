@@ -17,13 +17,13 @@ const hackathons = [
   },
   {
     name: 'SAP Hackfest 25',
-    description: 'Led a team to develop an enterprise-level solution during this university-level hackathon, focusing on real-world problem solving and system design.',
-    level: 'University',
+    description: 'Led a team to develop an enterprise-level solution during this National-level hackathon, focusing on real-world problem solving and system design.',
+    level: 'National',
     date: '2025'
   },
   {
-    name: 'VaultHeist Cyber Challenge',
-    description: 'Competed in a national-level cybersecurity competition and secured a position among the top 10 teams through strong analytical and problem-solving skills.',
+    name: 'VaultHeist Hackathon',
+    description: 'Competed in a national-level Hackathon and secured a position among the top 10 teams through strong analytical and problem-solving skills.',
     level: 'National',
     date: '2024'
   },
@@ -137,7 +137,7 @@ const Hackathons = () => {
           <div className="w-32 h-1 bg-gradient-to-r from-neon-cyan to-neon-purple mx-auto rounded-full" />
 
           <p className="text-white/60 mt-6">
-            Building • Competing • Innovating 🚀
+            Building • Competing • Innovating 
           </p>
         </div>
 
