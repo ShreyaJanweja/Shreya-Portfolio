@@ -11,7 +11,7 @@ const Projects = () => {
       image: '/assets/SurakshaSathi.png',
       tech: ['React', 'Node.js', 'MongoDB', 'Google Maps API'],
       github: 'https://github.com/Srishti2006-coder/Suraksha-sathi-react.git',
-      live: 'https://suraksha-sathi.vercel.app',
+      live: 'https://suraksha-sathi-shreya.vercel.app/',
       gradient: 'from-purple-500 to-pink-500'
     },
     {
@@ -29,11 +29,11 @@ const Projects = () => {
       image: '/assets/Quiz.png',
       tech: ['HTML', 'CSS', 'JavaScript'],
       github: 'https://github.com/ShreyaJanweja/QuizQuest---Quiz-Application.git',
-      live: '#',
+     
       gradient: 'from-indigo-500 to-blue-500'
     },
     {
-      title: 'Sparkathon Hackathon Website',
+      title: 'S - Hackathon Website',
       description: 'Official website for Sparkathon Hackathon. Features event registration, schedule, judging system, and live scoreboard.',
       image: '/assets/Hackathon.png',
       tech: ['Next.js', 'Tailwind', 'Supabase', 'Vercel'],
