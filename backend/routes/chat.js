@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const { OpenAI } = require('openai')
+const Groq = require('groq-sdk')
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+// Initialize Groq client
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
 })
 
 // System prompt with Shreya's portfolio information
@@ -70,55 +70,62 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Message is required and must be a string' })
     }
 
-    if (!process.env.OPENAI_API_KEY) {
-      return res.status(500).json({ error: 'OpenAI API key not configured' })
+    if (!process.env.GROQ_API_KEY) {
+      return res.status(500).json({ error: 'Groq API key not configured' })
     }
 
-    // Build messages array for conversation history
+    // Build messages array with system prompt + history + new message
     const messages = [
-      ...conversationHistory,
+      {
+        role: 'system',
+        content: SYSTEM_PROMPT,
+      },
+      ...(Array.isArray(conversationHistory) ? conversationHistory : []),
       {
         role: 'user',
         content: message,
       },
     ]
 
-    // Call OpenAI API
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini', // Using gpt-4o-mini for cost-effectiveness
-      messages: [
-        {
-          role: 'system',
-          content: SYSTEM_PROMPT,
-        },
-        ...messages,
-      ],
-      temperature: 0.8, // Slightly creative but mostly factual
-      max_tokens: 500, // Limit response length for chatbot
+    // Call Groq API
+    const completion = await groq.chat.completions.create({
+      model: 'llama-3.3-70b-versatile',  // Free, fast Groq model
+      messages: messages,
+      temperature: 0.8,
+      max_tokens: 500,
       top_p: 0.95,
     })
 
-    const aiResponse = completion.choices[0].message.content
+    const aiResponse = completion.choices[0]?.message?.content
 
-    // Return response
+    if (!aiResponse) {
+      return res.status(500).json({ error: 'Empty response from Groq. Please try again.' })
+    }
+
+    // Return in same format as before — frontend won't notice any difference
     res.json({
       success: true,
       response: aiResponse,
       usage: {
-        prompt_tokens: completion.usage.prompt_tokens,
-        completion_tokens: completion.usage.completion_tokens,
-        total_tokens: completion.usage.total_tokens,
+        prompt_tokens: completion.usage?.prompt_tokens ?? 0,
+        completion_tokens: completion.usage?.completion_tokens ?? 0,
+        total_tokens: completion.usage?.total_tokens ?? 0,
       },
     })
+
   } catch (error) {
-    console.error('OpenAI API Error:', error)
+    console.error('Groq API Error:', error)
 
     if (error.status === 401) {
-      return res.status(401).json({ error: 'Invalid OpenAI API key' })
+      return res.status(401).json({ error: 'Invalid Groq API key. Check your .env file.' })
     }
 
     if (error.status === 429) {
-      return res.status(429).json({ error: 'Rate limited. Please try again later.' })
+      return res.status(429).json({ error: 'Rate limited by Groq. Please try again in a moment.' })
+    }
+
+    if (error.status === 503 || error.code === 'ECONNREFUSED') {
+      return res.status(503).json({ error: 'Groq service unavailable. Please try again later.' })
     }
 
     res.status(500).json({ error: 'Error communicating with AI. Please try again.' })
